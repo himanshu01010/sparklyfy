@@ -7,6 +7,9 @@ import Campaign from './pages/campaign/Campaign';
 import Reward from './pages/reward/Reward';
 import Setting from './pages/setting/Setting';
 import Wallet from './pages/wallet/Wallet';
+import CreateCampaign from './pages/campaign/CreateCampaign';
+import CustomizeCatalog from './pages/campaign/CustomizeCatalog';
+import LandingPage from './pages/campaign/LandingPage';
 
 function App() {
   return (
@@ -23,6 +26,9 @@ function App() {
                 <Route index element={<Navigate to="/Home" replace />} />
                 <Route path='/Home' element={<Dashboard />} />
                 <Route path='/Campaign' element={<Campaign />} />
+                <Route path='/Campaign/Create' element={<CreateCampaign/>}/>
+                <Route path='/Campaign/Create/customize' element={<CustomizeCatalog/>}/>
+                <Route path='/Campaign/Create/landingPage' element={<LandingPage/>}/>
                 <Route path='/Reward' element={<Reward />} />
                 <Route path='/Setting' element={<Setting />} />
                 <Route path='/Wallet' element={<Wallet />} />
