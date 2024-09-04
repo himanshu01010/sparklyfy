@@ -1,43 +1,64 @@
 import React from 'react';
-import { Box, Typography, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Avatar } from '@mui/material';
+import { Box, Typography, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Avatar, ButtonBase } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SortIcon from '@mui/icons-material/Sort';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import img1 from "../assets/emp.png"
-import img2 from "../assets/gift.png"
-import img3 from "../assets/wallet.png"
-import img4 from "../assets/claim.png"
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import img1 from "../assets/emp.png";
+import img2 from "../assets/gift.png";
+import img3 from "../assets/wallet.png";
+import img4 from "../assets/claim.png";
 
-const StatCard = ({ image, value, label, color }) => (
-  <Paper elevation={3} sx={{ p: 2, bgcolor: color, color: 'white', borderRadius: 2 }}>
-    <Box display="flex" alignItems="center">
-      <Avatar sx={{ bgcolor: 'white', width: 56, height: 56 }}>
-        <img src={image} alt={label} style={{ width: '60%', height: '60%' }} />
-      </Avatar>
-      <Box ml={5}>
-        <Typography variant="h4" fontWeight="bold">{value}</Typography>
-        <Typography variant="h5">{label}</Typography>
+const StatCard = ({ image, value, label, color, onClick }) => (
+  <ButtonBase
+    onClick={onClick}
+    sx={{
+      width: '100%',
+      display: 'block',
+      textAlign: 'left',
+      borderRadius: 2,
+      '&:hover': {
+        opacity: 0.85,
+      },
+    }}
+  >
+    <Paper elevation={3} sx={{ p: 2, bgcolor: color, color: 'white', borderRadius: 2 }}>
+      <Box display="flex" alignItems="center">
+        <Avatar sx={{ bgcolor: 'white', width: 56, height: 56 }}>
+          <img src={image} alt={label} style={{ width: '60%', height: '60%' }} />
+        </Avatar>
+        <Box ml={5}>
+          <Typography variant="h4" fontWeight="bold">{value}</Typography>
+          <Typography variant="h5">{label}</Typography>
+        </Box>
       </Box>
-    </Box>
-  </Paper>
+    </Paper>
+  </ButtonBase>
 );
 
 const Dashboard = () => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  const handleClick = (stat) => {
+    navigate(stat.path); // Navigate to the specified path
+  };
+
   const stats = [
-    { image: img1, value: '2200', label: 'Total Employees', color: '#ff9800' },
-    { image: img2, value: '2100', label: 'Total Gift Send', color: '#9c27b0' },
-    { image: img2, value: '100', label: 'Total Gift Cancel', color: '#03a9f4' },
-    { image: img3, value: '20,000', label: 'Balance', color: '#4caf50' },
-    { image: img4, value: '1536', label: 'Total Claim', color: '#673ab7' },
+    { image: img1, value: '2200', label: 'Total Employees', color: '#ff9800', path: '/totalEmployees' },
+    { image: img2, value: '2100', label: 'Total Gift Send', color: '#9c27b0', path: '/totalGiftSend' },
+    { image: img2, value: '100', label: 'Total Gift Cancel', color: '#03a9f4', path: '/totalGiftCancel' },
+    { image: img3, value: '20,000', label: 'Balance', color: '#4caf50', path: '/balance' },
+    { image: img4, value: '1536', label: 'Total Claim', color: '#673ab7', path: '/totalClaim' },
   ];
 
   const giftData = [
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' },
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' },
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' },
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' },
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' },
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' },
+    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'pending'},
+    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'pending'},
+    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'Done'},
+    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'pending'},
+    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'Done'},
+    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'pending'},
+ 
   ];
 
   return (
@@ -46,13 +67,13 @@ const Dashboard = () => {
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {stats.slice(0, 4).map((stat, index) => (
           <Grid item xs={12} sm={6} md={3} key={index}>
-            <StatCard {...stat} />
+            <StatCard {...stat} onClick={() => handleClick(stat)} />
           </Grid>
         ))}
       </Grid>
       <Grid container spacing={3} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6} md={3}>
-          <StatCard {...stats[4]} />
+          <StatCard {...stats[4]} onClick={() => handleClick(stats[4])} />
         </Grid>
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
@@ -78,6 +99,7 @@ const Dashboard = () => {
               <TableCell sx={{ color: 'white' }}>Phone No</TableCell>
               <TableCell sx={{ color: 'white' }}>Email</TableCell>
               <TableCell sx={{ color: 'white' }}>Gift Send</TableCell>
+              <TableCell sx={{ color: 'white' }}>Status</TableCell>
               <TableCell sx={{ color: 'white' }}></TableCell>
             </TableRow>
           </TableHead>
@@ -90,6 +112,7 @@ const Dashboard = () => {
                 <TableCell sx={{ color: 'white' }}>{row.phone}</TableCell>
                 <TableCell sx={{ color: 'white' }}>{row.email}</TableCell>
                 <TableCell sx={{ color: 'white' }}>{row.giftSend}</TableCell>
+                <TableCell sx={{ color: 'white' }}>{row.status}</TableCell>
                 <TableCell>
                   <IconButton sx={{ color: 'white' }}>
                     <MoreVertIcon />

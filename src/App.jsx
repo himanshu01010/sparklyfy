@@ -10,6 +10,8 @@ import Wallet from './pages/wallet/Wallet';
 import CreateCampaign from './pages/campaign/CreateCampaign';
 import CustomizeCatalog from './pages/campaign/CustomizeCatalog';
 import LandingPage from './pages/campaign/LandingPage';
+import RewardLink from './pages/reward/RewardLink';
+import Approval from './pages/wallet/Approval';
 
 function App() {
   return (
@@ -30,8 +32,10 @@ function App() {
                 <Route path='/Campaign/Create/customize' element={<CustomizeCatalog/>}/>
                 <Route path='/Campaign/Create/landingPage' element={<LandingPage/>}/>
                 <Route path='/Reward' element={<Reward />} />
+                <Route path='/Reward/Link' element={<RewardLink/>}/>
                 <Route path='/Setting' element={<Setting />} />
                 <Route path='/Wallet' element={<Wallet />} />
+                <Route path='/Wallet/Approval' element={<Approval/>}/>
               </Route>
             </Routes>
           </div>

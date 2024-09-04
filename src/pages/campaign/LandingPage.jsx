@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import img1 from "../../assets/landingBg.png";
 import logo from "../../assets/logo.png";
 import img2 from "../../assets/Rectangle 21.png";
@@ -7,15 +7,29 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
 const ModeratelyRoundedCard = styled(Card)(({ theme }) => ({
-  borderRadius: '24px', // This creates a moderately rounded corner
+  borderRadius: '24px',
   overflow: 'hidden',
-  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Adding a subtle shadow
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
 }));
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  
+
+  useEffect(() => {
+    // Clear localStorage when the component mounts
+    localStorage.removeItem('landingPage');
+    console.log('localStorage cleared on mount');
+
+    // Optionally, you can set up a cleanup function to clear localStorage when the component unmounts
+    return () => {
+      localStorage.removeItem('landingPage');
+      console.log('localStorage cleared on unmount');
+    };
+  }, []);
+
   const handleBack = () => {
+    localStorage.removeItem('landingPage');
+    console.log('localStorage cleared before navigation');
     navigate(-1);
   };
 
@@ -45,7 +59,7 @@ const LandingPage = () => {
           <ModeratelyRoundedCard className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 top-0 z-20 w-11/12 md:w-3/4 lg:w-1/3 mx-auto bg-white h-96">
             <CardContent className="text-center p-8">
               <img src={logo} alt="Sparklyfy logo" className="mx-auto mb-10 h-24" />
-              <Typography  component="h2" sx={{fontWeight:"bold", fontSize:"40px"}}>
+              <Typography component="h2" sx={{fontWeight:"bold", fontSize:"40px"}}>
                 Employee Appreciation Gift
               </Typography>
               <Typography variant="body1" className="mb-6">

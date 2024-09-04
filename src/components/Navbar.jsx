@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
@@ -37,7 +38,7 @@ const Navbar = () => {
             <span className="badge">New</span>
           </a>
         </li>
-        <li><a>Settings</a></li>
+        <li><Link to='/setting'>Settings</Link></li>
         <li><a>Logout</a></li>
       </ul>
     </div>

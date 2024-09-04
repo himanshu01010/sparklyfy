@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import img1 from "../../assets/img1.png";
@@ -15,7 +15,30 @@ import img11 from "../../assets/img11.png";
 
 const CustomizeCatalog = () => {
   const [selectedVouchers, setSelectedVouchers] = useState([]);
+  const [voucherCount, setVoucherCount] = useState(0);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Retrieve saved data from localStorage
+    const savedData = localStorage.getItem('customizeCatalogData');
+    if (savedData) {
+      const { vouchers } = JSON.parse(savedData);
+      setSelectedVouchers(vouchers);
+      setVoucherCount(vouchers.length);
+    }
+  }, []);
+
+  const handleSave = () => {
+    const selectedData = {
+      vouchers: selectedVouchers,
+      country: 'India',
+      denomination: 'INR',
+      amount: '2000',
+      count: voucherCount
+    };
+    localStorage.setItem('customizeCatalogData', JSON.stringify(selectedData));
+    navigate(-1);
+  };
 
   const giftVouchers = [
     { name: 'amazon', logo: img1 },
@@ -34,22 +57,24 @@ const CustomizeCatalog = () => {
   const handleSelectVoucher = (name) => {
     if (selectedVouchers.includes(name)) {
       setSelectedVouchers(selectedVouchers.filter(voucher => voucher !== name));
+      setVoucherCount(voucherCount - 1);
     } else {
       setSelectedVouchers([...selectedVouchers, name]);
+      setVoucherCount(voucherCount + 1);
     }
   };
 
-  const handleBack =()=>{
-    navigate(-1)
-  }
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   return (
     <div className="bg-black text-white p-10 h-full">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-4xl font-bold">Customize Catalog</h1>
         <div className="space-x-4">
-          <button className="btn text-black bg-white rounded-full hover:bg-amber-500 text-lg" onClick={handleBack}>Back</button>
-          <button className="btn bg-white text-black rounded-full hover:bg-amber-500 text-lg">Save</button>
+          <button className="btn text-black bg-white rounded-full hover:bg-orange-500 text-lg" onClick={handleBack}>Back</button>
+          <button className="btn bg-white text-black rounded-full hover:bg-orange-500 text-lg" onClick={handleSave}>Save</button>
         </div>
       </div>
 
@@ -60,17 +85,15 @@ const CustomizeCatalog = () => {
             <select className="select w-full bg-gray-800 border-white text-white appearance-none">
               <option>India</option>
             </select>
-            {/* <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" /> */}
           </div>
         </div>
         <div className="flex space-x-4">
           <div className="flex-1">
             <label className="block text-lg mb-2">Denomination</label>
             <div className="relative">
-              <select className="select w-full bg-gray-800 border-white text-white appearance-none  ">
-                <option>USD</option>
+              <select className="select w-full bg-gray-800 border-white text-white appearance-none">
+                <option>INR</option>
               </select>
-              {/* <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" /> */}
             </div>
           </div>
           <div className="flex-1">
@@ -84,7 +107,6 @@ const CustomizeCatalog = () => {
             <select className="select w-full bg-gray-800 border-white text-white appearance-none">
               <option>All</option>
             </select>
-            {/* <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" /> */}
           </div>
         </div>
       </div>
@@ -97,7 +119,7 @@ const CustomizeCatalog = () => {
           return (
             <div
               key={index}
-              className={`relative  w-full cursor-pointer transition duration-300 rounded-lg overflow-hidden ${
+              className={`relative w-full cursor-pointer transition duration-300 rounded-lg overflow-hidden ${
                 isSelected ? 'shadow-lg shadow-orange-500' : ''
               }`}
               onClick={() => handleSelectVoucher(voucher.name)}
