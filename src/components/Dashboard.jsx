@@ -1,46 +1,54 @@
 import React from 'react';
-import { Box, Typography, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Avatar, ButtonBase } from '@mui/material';
+import { Box, Typography, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Avatar, ButtonBase, useMediaQuery, useTheme } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SortIcon from '@mui/icons-material/Sort';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import img1 from "../assets/emp.png";
 import img2 from "../assets/gift.png";
 import img3 from "../assets/wallet.png";
 import img4 from "../assets/claim.png";
 
-const StatCard = ({ image, value, label, color, onClick }) => (
-  <ButtonBase
-    onClick={onClick}
-    sx={{
-      width: '100%',
-      display: 'block',
-      textAlign: 'left',
-      borderRadius: 2,
-      '&:hover': {
-        opacity: 0.85,
-      },
-    }}
-  >
-    <Paper elevation={3} sx={{ p: 2, bgcolor: color, color: 'white', borderRadius: 2 }}>
-      <Box display="flex" alignItems="center">
-        <Avatar sx={{ bgcolor: 'white', width: 56, height: 56 }}>
-          <img src={image} alt={label} style={{ width: '60%', height: '60%' }} />
-        </Avatar>
-        <Box ml={5}>
-          <Typography variant="h4" fontWeight="bold">{value}</Typography>
-          <Typography variant="h5">{label}</Typography>
+const StatCard = ({ image, value, label, color, onClick }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  return (
+    <ButtonBase
+      onClick={onClick}
+      sx={{
+        width: '100%',
+        display: 'block',
+        textAlign: 'left',
+        borderRadius: 2,
+        '&:hover': {
+          opacity: 0.85,
+        },
+      }}
+    >
+      <Paper elevation={3} sx={{ p: isMobile ? 1 : 2, bgcolor: color, color: 'white', borderRadius: 2 }}>
+        <Box display="flex" alignItems="center">
+          <Avatar sx={{ bgcolor: 'white', width: isMobile ? 40 : 56, height: isMobile ? 40 : 56 }}>
+            <img src={image} alt={label} style={{ width: '60%', height: '60%' }} />
+          </Avatar>
+          <Box ml={isMobile ? 2 : 5}>
+            <Typography variant={isMobile ? "h6" : "h4"} fontWeight="bold">{value}</Typography>
+            <Typography variant={isMobile ? "body1" : "h5"}>{label}</Typography>
+          </Box>
         </Box>
-      </Box>
-    </Paper>
-  </ButtonBase>
-);
+      </Paper>
+    </ButtonBase>
+  );
+};
 
 const Dashboard = () => {
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
   const handleClick = (stat) => {
-    navigate(stat.path); // Navigate to the specified path
+    navigate(stat.path);
   };
 
   const stats = [
@@ -52,52 +60,54 @@ const Dashboard = () => {
   ];
 
   const giftData = [
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'pending'},
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'pending'},
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'Done'},
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'pending'},
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'Done'},
-    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55' ,status:'pending'},
- 
+    { id: '01', recipient: 'Vipin', team: 'Creative', phone: '0123-456-789', email: 'xyz@gmail.com', giftSend: '$948.55', status: 'pending' },
+    { id: '02', recipient: 'John', team: 'Marketing', phone: '0123-456-790', email: 'abc@gmail.com', giftSend: '$750.00', status: 'Done' },
+    { id: '03', recipient: 'Sara', team: 'Design', phone: '0123-456-791', email: 'def@gmail.com', giftSend: '$1200.00', status: 'pending' },
+    { id: '04', recipient: 'Mike', team: 'Development', phone: '0123-456-792', email: 'ghi@gmail.com', giftSend: '$500.00', status: 'Done' },
+    { id: '05', recipient: 'Emily', team: 'HR', phone: '0123-456-793', email: 'jkl@gmail.com', giftSend: '$800.00', status: 'pending' },
+    { id: '06', recipient: 'Alex', team: 'Sales', phone: '0123-456-794', email: 'mno@gmail.com', giftSend: '$1500.00', status: 'Done' },
   ];
 
   return (
-    <Box sx={{ p: 3, bgcolor: '#121212', color: 'white', minHeight: '100vh' }}>
-      <Typography variant="h4" gutterBottom>Welcome, Vipin</Typography>
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        {stats.slice(0, 4).map((stat, index) => (
-          <Grid item xs={12} sm={6} md={3} key={index}>
+    <Box sx={{ p: isMobile ? 2 : 3, bgcolor: '#121212', color: 'white', minHeight: '100vh' }}>
+      <Typography variant={isMobile ? "h5" : "h4"} gutterBottom>Welcome, Vipin</Typography>
+      <Grid container spacing={isMobile ? 2 : 3} sx={{ mb: 4 }}>
+        {stats.map((stat, index) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
             <StatCard {...stat} onClick={() => handleClick(stat)} />
           </Grid>
         ))}
       </Grid>
-      <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} sm={6} md={3}>
-          <StatCard {...stats[4]} onClick={() => handleClick(stats[4])} />
-        </Grid>
-      </Grid>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-        <Typography variant="h6">Last Gift Sent</Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, flexDirection: isMobile ? 'column' : 'row' }}>
+        <Typography variant={isMobile ? "h6" : "h5"} sx={{ mb: isMobile ? 2 : 0 }}>Last Gift Sent</Typography>
         <Box>
           <IconButton sx={{ color: 'white' }}>
-            <Typography variant="body2" sx={{ mr: 1 }}>Sort</Typography>
+            <Typography variant="body2" sx={{ mr: 1, display: { xs: 'none', sm: 'inline' } }}>Sort</Typography>
             <SortIcon />
           </IconButton>
           <IconButton sx={{ color: 'white' }}>
-            <Typography variant="body2" sx={{ mr: 1 }}>Filter</Typography>
+            <Typography variant="body2" sx={{ mr: 1, display: { xs: 'none', sm: 'inline' } }}>Filter</Typography>
             <FilterListIcon />
           </IconButton>
         </Box>
       </Box>
-      <TableContainer component={Paper} sx={{ bgcolor: '#1e1e1e', borderRadius: '16px' }}>
-        <Table sx={{ minWidth: 650 }}>
+      <TableContainer component={Paper} sx={{ bgcolor: '#1e1e1e', borderRadius: '16px', overflowX: 'auto' }}>
+        <Table sx={{ minWidth: isMobile ? 300 : isTablet ? 500 : 650 }}>
           <TableHead>
             <TableRow>
               <TableCell sx={{ color: 'white' }}>ID</TableCell>
               <TableCell sx={{ color: 'white' }}>Recipient</TableCell>
-              <TableCell sx={{ color: 'white' }}>Team</TableCell>
-              <TableCell sx={{ color: 'white' }}>Phone No</TableCell>
-              <TableCell sx={{ color: 'white' }}>Email</TableCell>
+              {!isMobile && (
+                <>
+                  <TableCell sx={{ color: 'white' }}>Team</TableCell>
+                  {!isTablet && (
+                    <>
+                      <TableCell sx={{ color: 'white' }}>Phone No</TableCell>
+                      <TableCell sx={{ color: 'white' }}>Email</TableCell>
+                    </>
+                  )}
+                </>
+              )}
               <TableCell sx={{ color: 'white' }}>Gift Send</TableCell>
               <TableCell sx={{ color: 'white' }}>Status</TableCell>
               <TableCell sx={{ color: 'white' }}></TableCell>
@@ -108,9 +118,17 @@ const Dashboard = () => {
               <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell sx={{ color: 'white' }}>{row.id}</TableCell>
                 <TableCell sx={{ color: 'white' }}>{row.recipient}</TableCell>
-                <TableCell sx={{ color: 'white' }}>{row.team}</TableCell>
-                <TableCell sx={{ color: 'white' }}>{row.phone}</TableCell>
-                <TableCell sx={{ color: 'white' }}>{row.email}</TableCell>
+                {!isMobile && (
+                  <>
+                    <TableCell sx={{ color: 'white' }}>{row.team}</TableCell>
+                    {!isTablet && (
+                      <>
+                        <TableCell sx={{ color: 'white' }}>{row.phone}</TableCell>
+                        <TableCell sx={{ color: 'white' }}>{row.email}</TableCell>
+                      </>
+                    )}
+                  </>
+                )}
                 <TableCell sx={{ color: 'white' }}>{row.giftSend}</TableCell>
                 <TableCell sx={{ color: 'white' }}>{row.status}</TableCell>
                 <TableCell>

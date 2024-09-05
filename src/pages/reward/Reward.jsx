@@ -32,7 +32,6 @@ const Reward = () => {
   const [customizeData, setCustomizeData] = useState(null);
 
   useEffect(() => {
-    // Retrieve saved data from localStorage
     const data = localStorage.getItem('customizeCatalogData');
     if (data) {
       setCustomizeData(JSON.parse(data));
@@ -46,54 +45,49 @@ const Reward = () => {
   const handleLink = () => {
     navigate('/Reward/Link');
   }
-  const handleView = ()=>{
+
+  const handleView = () => {
     navigate('/Campaign/Create/customize')
   }
 
-  // Calculate total products
   const totalProducts = customizeData ? customizeData.vouchers.length : 0;
 
   return (
-    <div className="bg-black text-white p-10 h-full mx-auto">
-      <h1 className="text-4xl font-bold mb-20">Send Reward Link</h1>
-      
-      <div className="bg-zinc-900 rounded-lg p-10 mb-4">
-        <div className="flex justify-between items-center mb-4 p-10 bg-zinc-800 rounded-xl border border-white">
-          <span className="text-3xl px-10">Select Campaign</span>
+    <div className="bg-black text-white p-4 sm:p-6 md:p-8 lg:p-10 min-h-screen">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8 sm:mb-12 md:mb-16 lg:mb-20">Send Reward Link</h1>
+      <div className="bg-zinc-900 rounded-lg p-4 sm:p-6 md:p-8 lg:p-10 mb-4">
+        <div className="flex justify-between items-center mb-4 p-4 sm:p-6 md:p-8 lg:p-10 bg-zinc-800 rounded-xl border border-white">
+          <span className="text-xl sm:text-2xl md:text-3xl px-2 sm:px-4 md:px-6 lg:px-10">Select Campaign</span>
           {/* <ChevronUp size={20} /> */}
         </div>
-        
         <div className="mb-4">
-          <h2 className="text-3xl mb-2">Choose Campaign</h2>
-          <div className="flex justify-between items-center p-7 bg-zinc-800 rounded-xl border border-white">
-            <span className="text-2xl">Diwali Campaign</span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl mb-2">Choose Campaign</h2>
+          <div className="flex justify-between items-center p-4 sm:p-5 md:p-6 lg:p-7 bg-zinc-800 rounded-xl border border-white">
+            <span className="text-lg sm:text-xl md:text-2xl">Diwali Campaign</span>
             <ChevronDown size={20} />
           </div>
         </div>
-        
-        <div className="flex items-center mb-10">
-          <span className="text-2xl ml-5">{totalProducts} Products USD: $2000</span>
-          <button className="ml-7" onClick={handleEdit}>Edit</button>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center mb-6 sm:mb-8 md:mb-10">
+          <span className="text-lg sm:text-xl md:text-2xl ml-2 sm:ml-5 mb-2 sm:mb-0">{totalProducts} Products USD: $2000</span>
+          <button className="ml-2 sm:ml-7 bg-zinc-700 hover:bg-zinc-600 px-3 py-1 rounded" onClick={handleEdit}>Edit</button>
         </div>
-
         {customizeData && (
-          <div className="flex space-x-4 mt-7">
-            {customizeData.vouchers.map((voucher, index) => (
-              <img 
-                key={index} 
-                src={voucherImages[voucher]} 
-                alt={voucher} 
-                className="w-50 h-50 object-cover rounded-2xl" 
-              />
-            ))}
-            <button className='text-sky-500' onClick={handleView}>View Details</button>
+          <div className="mt-4 sm:mt-7">
+            <div className="flex flex-wrap gap-2 sm:gap-4">
+              {customizeData.vouchers.map((voucher, index) => (
+                <img
+                  key={index}
+                  src={voucherImages[voucher]}
+                  alt={voucher}
+                  className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 object-cover rounded-xl"
+                />
+              ))}
+            </div>
+            <button className='text-sky-500 mt-4' onClick={handleView}>View Details</button>
           </div>
         )}
-        
       </div>
-
-      
-      <button className="btn w-full bg-white text-black rounded font-semibold rounded-full text-xl hover:bg-orange-500" onClick={handleLink}>
+      <button className="btn w-full bg-white text-black rounded-full font-semibold text-lg sm:text-xl py-2 sm:py-3 mt-4 hover:bg-orange-500" onClick={handleLink}>
         Next
       </button>
     </div>

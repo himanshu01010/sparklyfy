@@ -16,7 +16,7 @@ const SideNavbar = () => {
   const isActive = (path) => location.pathname.startsWith(path);
 
   return (
-    <div className="w-80 bg-white text-base-content h-screen flex flex-col">
+    <div className="w-80 bg-white text-base-content min-h-screen flex flex-col">
       <div className="p-4">
         <div className="flex items-center justify-center">
           <img src={img} alt="Logo" className="w-25 h-25" />

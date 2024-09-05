@@ -18,7 +18,11 @@ function App() {
     <Router>
       <div className="flex h-full">
         {/* Side Navbar */}
-        <SideNavbar />
+        <div className="hidden sm:block">
+         <SideNavbar /> 
+
+        </div>
+        
         <div className="flex flex-col flex-grow">
           {/* Top Navbar */}
           <Navbar />

@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import { Box, Button, Typography, Grid, Paper, IconButton, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Typography, Grid, Paper, IconButton, Menu, MenuItem, useTheme, useMediaQuery } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 
 const campaignData = [
   { name: 'Holi', startDate: '15-04-2025', endDate: '30-04-2025', status: 'Running' },
-  { name: 'Holi', startDate: '15-04-2025', endDate: '30-04-2025', status: 'Running' },
-  { name: 'Holi', startDate: '15-04-2025', endDate: '30-04-2025', status: 'Running' },
-  { name: 'Holi', startDate: '15-04-2025', endDate: '30-04-2025', status: 'Running' },
-  { name: 'Holi', startDate: '15-04-2025', endDate: '30-04-2025', status: 'Running' },
-  { name: 'Holi', startDate: '15-04-2025', endDate: '30-04-2025', status: 'Running' },
-  { name: 'Holi', startDate: '15-04-2025', endDate: '30-04-2025', status: 'Running' },
+  { name: 'Diwali', startDate: '01-11-2025', endDate: '15-11-2025', status: 'Upcoming' },
+  { name: 'Christmas', startDate: '20-12-2025', endDate: '26-12-2025', status: 'Planning' },
+  // ... (other campaign data)
 ];
 
 const Campaign = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleMenuOpen = (event, campaign) => {
     setAnchorEl(event.currentTarget);
@@ -39,13 +38,13 @@ const Campaign = () => {
     handleMenuClose();
   };
 
-  const createbtn = ()=>{
-    navigate('/Campaign/Create')
-  }
+  const createbtn = () => {
+    navigate('/Campaign/Create');
+  };
 
   return (
-    <Box sx={{ bgcolor: 'black', minHeight: '100vh', color: 'white', p: 4 }}>
-      <Typography variant="h3" fontWeight="bold" mb={4}>
+    <Box sx={{ bgcolor: 'black', minHeight: '100vh', color: 'white', p: { xs: 2, sm: 4 } }}>
+      <Typography variant="h3" fontWeight="bold" mb={4} fontSize={{ xs: '2rem', sm: '3rem' }}>
         Campaign
       </Typography>
       <Paper sx={{ bgcolor: '#7e22ce', borderRadius: 3, mb: 6 }}>
@@ -54,7 +53,7 @@ const Campaign = () => {
           sx={{ py: 3, display: 'flex', flexDirection: 'column', color: 'white' }}
           onClick={createbtn}
         >
-          <Typography variant="h4" fontWeight="bold">
+          <Typography variant="h4" fontWeight="bold" fontSize={{ xs: '1.5rem', sm: '2rem' }}>
             Create Campaign
           </Typography>
           <Box
@@ -74,24 +73,26 @@ const Campaign = () => {
           </Box>
         </Button>
       </Paper>
-      <Typography variant="h4" mb={4}>
+      <Typography variant="h4" mb={4} fontSize={{ xs: '1.5rem', sm: '2rem' }}>
         Previous Campaign
       </Typography>
-      <Grid container spacing={2} mb={2}>
-        <Grid item xs={3}>
-          <Typography variant="body1" sx={{fontSize:"30px",color: 'gray'}}>Campaign Name</Typography>
+      {!isMobile && (
+        <Grid container spacing={2} mb={2}>
+          <Grid item xs={3}>
+            <Typography variant="body1" sx={{ fontSize: "1.5rem", color: 'gray' }}>Campaign Name</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="body1" sx={{ fontSize: "1.5rem", color: 'gray' }}>Start Date</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography variant="body1" sx={{ fontSize: "1.5rem", color: 'gray' }}>End Date</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography variant="body1" sx={{ fontSize: "1.5rem", color: 'gray' }}>Status</Typography>
+          </Grid>
+          <Grid item xs={1}></Grid>
         </Grid>
-        <Grid item xs={3}>
-          <Typography variant="body1" sx={{fontSize:"30px", color: 'gray'}}>Start Date</Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Typography variant="body1" sx={{fontSize:"30px", color: 'gray'}}>End Date</Typography>
-        </Grid>
-        <Grid item xs={2}>
-          <Typography variant="body1" sx={{fontSize:"30px", color: 'gray'}}>Status</Typography>
-        </Grid>
-        <Grid item xs={1}></Grid>
-      </Grid>
+      )}
       {campaignData.map((campaign, index) => (
         <Paper
           key={index}
@@ -101,33 +102,36 @@ const Campaign = () => {
             p: 2,
             mb: 2,
             '&:hover': {
-              bgcolor: '#f59e0b', // Amber 500 equivalent
+              bgcolor: '#f59e0b',
             },
             transition: 'background-color 0.3s',
           }}
         >
-          <Grid container spacing={2}>
-            <Grid item xs={3}>
-              <Typography variant="body2" sx={{ color: 'white' , fontSize:"20px"}}>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={12} sm={3}>
+              <Typography variant="body2" sx={{ color: 'white', fontSize: { xs: '1rem', sm: '1.25rem' }, fontWeight: 'bold' }}>
                 {campaign.name}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" sx={{ color: 'white', fontSize:"20px" }}>
+            <Grid item xs={6} sm={3}>
+              <Typography variant="body2" sx={{ color: 'white', fontSize: { xs: '0.875rem', sm: '1.25rem' } }}>
+                {isMobile && <span style={{ color: 'gray', marginRight: '0.5rem' }}>Start:</span>}
                 {campaign.startDate}
               </Typography>
             </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body2" sx={{ color: 'white', fontSize:"20px" }}>
+            <Grid item xs={6} sm={3}>
+              <Typography variant="body2" sx={{ color: 'white', fontSize: { xs: '0.875rem', sm: '1.25rem' } }}>
+                {isMobile && <span style={{ color: 'gray', marginRight: '0.5rem' }}>End:</span>}
                 {campaign.endDate}
               </Typography>
             </Grid>
-            <Grid item xs={2}>
-              <Typography variant="body2" sx={{ color: 'white', fontSize:"20px" }}>
+            <Grid item xs={6} sm={2}>
+              <Typography variant="body2" sx={{ color: 'white', fontSize: { xs: '0.875rem', sm: '1.25rem' } }}>
+                {isMobile && <span style={{ color: 'gray', marginRight: '0.5rem' }}>Status:</span>}
                 {campaign.status}
               </Typography>
             </Grid>
-            <Grid item xs={1} sx={{ textAlign: 'right' }}>
+            <Grid item xs={6} sm={1} sx={{ textAlign: 'right' }}>
               <IconButton onClick={(event) => handleMenuOpen(event, campaign)}>
                 <MoreVertIcon sx={{ color: 'white' }} />
               </IconButton>

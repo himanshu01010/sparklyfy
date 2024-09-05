@@ -19,7 +19,6 @@ const CustomizeCatalog = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Retrieve saved data from localStorage
     const savedData = localStorage.getItem('customizeCatalogData');
     if (savedData) {
       const { vouchers } = JSON.parse(savedData);
@@ -69,16 +68,16 @@ const CustomizeCatalog = () => {
   };
 
   return (
-    <div className="bg-black text-white p-10 h-full">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold">Customize Catalog</h1>
-        <div className="space-x-4">
-          <button className="btn text-black bg-white rounded-full hover:bg-orange-500 text-lg" onClick={handleBack}>Back</button>
-          <button className="btn bg-white text-black rounded-full hover:bg-orange-500 text-lg" onClick={handleSave}>Save</button>
+    <div className="bg-black text-white p-4 sm:p-6 md:p-10 min-h-screen">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8">
+        <h1 className="text-3xl sm:text-4xl font-bold mb-4 sm:mb-0">Customize Catalog</h1>
+        <div className="space-y-2 sm:space-y-0 sm:space-x-4">
+          <button className="btn w-full sm:w-auto text-black bg-white rounded-full hover:bg-orange-500 text-lg mb-2 sm:mb-0" onClick={handleBack}>Back</button>
+          <button className="btn w-full sm:w-auto bg-white text-black rounded-full hover:bg-orange-500 text-lg" onClick={handleSave}>Save</button>
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
         <div>
           <label className="block text-lg mb-2">Country</label>
           <div className="relative">
@@ -87,7 +86,7 @@ const CustomizeCatalog = () => {
             </select>
           </div>
         </div>
-        <div className="flex space-x-4">
+        <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
           <div className="flex-1">
             <label className="block text-lg mb-2">Denomination</label>
             <div className="relative">
@@ -111,8 +110,8 @@ const CustomizeCatalog = () => {
         </div>
       </div>
 
-      <h2 className="text-3xl font-semibold mb-4">Select Gift Vouchers</h2>
-      <div className="grid grid-cols-5 gap-4 bg-zinc-900 p-20 rounded-lg">
+      <h2 className="text-2xl sm:text-3xl font-semibold mb-4">Select Gift Vouchers</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 bg-zinc-900 p-4 sm:p-6 md:p-10 lg:p-20 rounded-lg">
         {giftVouchers.map((voucher, index) => {
           const isSelected = selectedVouchers.includes(voucher.name);
 
